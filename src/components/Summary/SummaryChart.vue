@@ -6,17 +6,25 @@
 
       <!-- Bar Chart -->
       <BarChart :data="data" :colors="colors" class="bar-chart-wrapper" />
+
+      <A11yTable
+        v-show="false"
+        aria-hidden="true"
+        :data="data"
+        caption="Tabular representation of the bar and pie charts showing data for the total beverage revenue and spending"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import BarChart from "./BarChart.vue";
-import DonutChart from "./DonutChart.vue";
+import BarChart from "./BarChart";
+import DonutChart from "./DonutChart";
+import A11yTable from "./A11yTable";
 
 export default {
   name: "SummaryChart",
-  components: { BarChart, DonutChart },
+  components: { BarChart, DonutChart, A11yTable },
   props: { data: { type: Map, default: null } },
   data() {
     return {
