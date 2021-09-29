@@ -212,7 +212,7 @@ export default {
       if (this.data == null) return [];
 
       //   Do we need to filter by a specific fiscal year?
-      if (this.selectedFiscalYears.length > 0) {
+      if (this.selectedFiscalYears !== null) {
         data = data.filter(
           (d) => this.selectedFiscalYears.indexOf(d["Fiscal Year"]) !== -1
         );
