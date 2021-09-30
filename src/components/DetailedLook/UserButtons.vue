@@ -60,25 +60,15 @@ export default {
 </script>
 
 <style>
-/* Fix bootstrap collision */
-.use-type-dropdown input {
-  border: 0px solid #fff !important;
-  background-color: inherit !important;
-}
-.fiscal-year-dropdown input {
-  border: 0px solid #fff !important;
-  background-color: inherit !important;
-}
-
 /* Use Type Dropdown */
 .use-type-dropdown {
   font-size: 1.1rem;
-  max-width: 350px;
+  max-width: 350px !important;
 }
 
 /* Fiscal year Dropdown */
 .fiscal-year-dropdown {
   font-size: 1.1rem;
-  max-width: 350px;
+  max-width: 350px !important;
 }
 </style>

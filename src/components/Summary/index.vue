@@ -47,14 +47,17 @@
         />
 
         <!-- Footer -->
-        <div class="summary-footer">
+        <div class="summary-footer" id="summary-chart-footnotes">
           <div class="footnote-header">Notes</div>
-          <div class="font-italic">{{ summaryFootnote }}</div>
-          <div class="font-italic">
-            "Program Administration" refers to spending associated with the
-            Office of Children & Families beginning in FY21, and prior to that,
-            the Office of Education.
-          </div>
+          <v-divider class="my-divider" />
+          <ul aria-labelledby="summary-chart-footnotes">
+            <li class="font-italic">{{ summaryFootnote }}</li>
+            <li class="font-italic">
+              "Program Administration" refers to spending associated with the
+              Office of Children & Families beginning in FY21, and prior to
+              that, the Office of Education.
+            </li>
+          </ul>
         </div>
       </div>
     </v-col>
@@ -244,6 +247,12 @@ export default {
     width: 100%;
     max-width: 100% !important;
   }
+}
+
+.my-divider {
+  border-top: 4px solid #2176d2 !important;
+  margin: 0 0 !important;
+  width: 7% !important;
 }
 </style>
 

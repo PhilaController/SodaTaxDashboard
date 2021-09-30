@@ -89,7 +89,15 @@
             >
               <template #top>
                 <v-row
-                  class="d-flex align-items-center justify-content-end mb-5"
+                  no-gutters
+                  class="
+                    d-flex
+                    align-items-center
+                    justify-content-end
+                    mb-5
+                    mr-5
+                    ml-5
+                  "
                 >
                   <v-col md="3" sm="12">
                     <v-text-field
@@ -251,5 +259,9 @@ export default {
 }
 .main-table-search input {
   border: 0px solid #fff !important;
+}
+.v-application--is-ltr .v-data-footer__select {
+  margin-left: auto;
+  margin-right: 14px;
 }
 </style>
