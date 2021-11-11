@@ -1,56 +1,59 @@
 <template>
-  <div class="detailed-look">
-    <!-- Header -->
-    <h2>
-      A Detailed Look at
-      <span class="font-weight-bold">{{ displayedSpendingUse }}</span> Spending
-    </h2>
-    <hr class="titlebar" />
+  <div>
+    <div class="detailed-look" v-if="data != null">
+      <!-- Header -->
+      <h2>
+        A Detailed Look at
+        <span class="font-weight-bold">{{ displayedSpendingUse }}</span>
+        Spending
+      </h2>
+      <hr class="titlebar" />
 
-    <p
-      v-if="selectedSpendingUse === 'Program Administration'"
-      class="admin-note"
-    >
-      Note: "Administrative" spending refers to spending associated with the
-      Office of Children & Families beginning in FY21, and prior to that, the
-      Office of Education. These offices are responsible for administering the
-      Pre-K and Community Schools programs.
-    </p>
+      <p
+        v-if="selectedSpendingUse === 'Program Administration'"
+        class="admin-note"
+      >
+        Note: "Administrative" spending refers to spending associated with the
+        Office of Children & Families beginning in FY21, and prior to that, the
+        Office of Education. These offices are responsible for administering the
+        Pre-K and Community Schools programs.
+      </p>
 
-    <!-- user chooses use type and fiscal year -->
-    <div class="user-buttons">
-      <v-row>
-        <UserButtons
-          :spending-uses="spendingUses"
-          :fiscal-years="fiscalYears"
-          :default-fiscal-year="defaultFiscalYear"
-          :default-spending-use="defaultSpendingUse"
-          @spending-use-change="updateSpendingUse"
-          @fiscal-year-change="updateFiscalYears"
-        />
+      <!-- user chooses use type and fiscal year -->
+      <div class="user-buttons">
+        <v-row>
+          <UserButtons
+            :spending-uses="spendingUses"
+            :fiscal-years="fiscalYears"
+            :default-fiscal-year="defaultFiscalYear"
+            :default-spending-use="defaultSpendingUse"
+            @spending-use-change="updateSpendingUse"
+            @fiscal-year-change="updateFiscalYears"
+          />
 
-        <!-- Show the high level summary -->
-        <v-col cols="12" md="6" class="mt-3 high-level-summary">
-          <div
-            v-show="expendituresNumber > 0 && expendituresNumber !== null"
-            class="sub-header high-level-summary-header"
-          >
-            You are viewing data for
-            <b>{{ expendituresNumber }}</b> expenditures, totaling
-            <b>{{ formatTotal(expendituresTotal) }}</b
-            >.
-          </div>
-        </v-col>
-      </v-row>
+          <!-- Show the high level summary -->
+          <v-col cols="12" md="6" class="mt-3 high-level-summary">
+            <div
+              v-show="expendituresNumber > 0 && expendituresNumber !== null"
+              class="sub-header high-level-summary-header"
+            >
+              You are viewing data for
+              <b>{{ expendituresNumber }}</b> expenditures, totaling
+              <b>{{ formatTotal(expendituresTotal) }}</b
+              >.
+            </div>
+          </v-col>
+        </v-row>
+      </div>
+
+      <!-- Dashboard -->
+      <Dashboard
+        ref="Dashboard"
+        :data="data"
+        :selected-spending-use="selectedSpendingUse"
+        :selected-fiscal-years="selectedFiscalYears"
+      />
     </div>
-
-    <!-- Dashboard -->
-    <Dashboard
-      ref="Dashboard"
-      :data="data"
-      :selected-spending-use="selectedSpendingUse"
-      :selected-fiscal-years="selectedFiscalYears"
-    />
   </div>
 </template>
 
@@ -58,22 +61,31 @@
 import UserButtons from "./UserButtons.vue";
 import Dashboard from "./Dashboard.vue";
 import { ascending } from "d3-array";
-import { FISCAL_YEAR } from "@/config";
 import { format } from "d3-format";
+import { fetchAWS } from "@/utils";
 
 export default {
   name: "DetailedLook",
+  props: ["fiscal_year", "quarter"],
   components: { Dashboard, UserButtons },
   data() {
     return {
       data: null,
       defaultSpendingUse: "Pre-K",
       selectedSpendingUse: null,
-      defaultFiscalYear: FISCAL_YEAR,
+      defaultFiscalYear: this.fiscal_year,
       selectedFiscalYears: null,
       expendituresTotal: null,
       expendituresNumber: null,
     };
+  },
+  async created() {
+    // Set the selected values to the default values
+    this.selectedSpendingUse = this.defaultSpendingUse;
+    this.selectedFiscalYears = [this.defaultFiscalYear.toString()];
+
+    // Get the expenditure data
+    this.data = await fetchAWS("expenditures");
   },
   computed: {
     fiscalYears() {
@@ -99,20 +111,6 @@ export default {
         return "Administrative";
       else return this.selectedSpendingUse;
     },
-  },
-  created() {
-    // Set the selected values to the default values
-    this.selectedSpendingUse = this.defaultSpendingUse;
-    this.selectedFiscalYears = [this.defaultFiscalYear.toString()];
-
-    // Load the data
-    this.data = this.$store.state.expenditures;
-    if (this.data == null) {
-      this.$store.dispatch("fetchExpenditures").then((data) => {
-        this.data = data;
-        this.updateExpenditureTotals();
-      });
-    }
   },
   methods: {
     formatTotal(d) {

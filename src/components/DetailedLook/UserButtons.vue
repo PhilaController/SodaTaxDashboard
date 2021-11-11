@@ -15,6 +15,7 @@
         class="use-type-dropdown"
         outlined
         hide-details
+        :ripple="false"
         @input="changeSelectedSpendingUse"
       />
 
@@ -27,6 +28,7 @@
         multiple
         outlined
         hide-details
+        :ripple="false"
         @input="changeSelectedFiscalYears"
       />
     </div>

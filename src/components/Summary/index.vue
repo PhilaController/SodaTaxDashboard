@@ -24,6 +24,7 @@
             label="Select Time Period To View"
             outlined
             hide-details
+            :ripple="false"
           />
 
           <!-- Download button -->
@@ -31,6 +32,7 @@
             class="download-summary-button ml-0 ml-md-2 mt-2 mt-md-0"
             large
             outlined
+            :ripple="false"
             :href="downloadURL"
             >Download Data</v-btn
           >
@@ -41,7 +43,7 @@
       <div class="h-100">
         <!-- Main Chart -->
         <SummaryChart
-          v-if="loadingState > 0"
+          v-if="data != null"
           :key="loadingState"
           :data="filteredData"
         />
@@ -66,17 +68,16 @@
 
 <script>
 import SummaryChart from "./SummaryChart";
-import { FISCAL_YEAR, QUARTER } from "@/config";
 import { rollup, sum, ascending } from "d3-array";
 import { getDownloadURL } from "@/utils";
 
 export default {
   name: "Summary",
   components: { SummaryChart },
+  props: ["data", "fiscal_year", "quarter"],
   data() {
     return {
       downloadURL: getDownloadURL("summary"),
-      data: null,
       selectedFiscalYear: null,
       loadingState: 0,
     };
@@ -133,33 +134,36 @@ export default {
       // All dates
       if (fy == null) {
         // Figure out the ending quarter
-        fy = FISCAL_YEAR;
-        if (QUARTER == 4) {
+        fy = this.fiscal_year;
+        if (this.quarter == 4) {
           return `Totals include expenditures from FY 2017 through FY ${fy}, ending on June 30, ${fy}.`;
-        } else if (QUARTER == 3) {
-          return `Totals include expenditures from FY 2017 through FY ${fy} Q${QUARTER}, ending on March 31, ${fy}.`;
-        } else if (QUARTER == 2) {
-          return `Totals include expenditures from FY 2017 through FY ${fy} Q${QUARTER}, ending on December 31, ${
-            fy - 1
-          }.`;
-        } else if (QUARTER == 1) {
-          return `Totals include expenditures from FY 2017 through FY ${fy} Q${QUARTER}, ending on September 30, ${
-            fy - 1
-          }.`;
+        } else if (this.quarter == 3) {
+          return `Totals include expenditures from FY 2017 through FY ${fy} Q${this.quarter}, ending on March 31, ${fy}.`;
+        } else if (this.quarter == 2) {
+          return `Totals include expenditures from FY 2017 through FY ${fy} Q${
+            this.quarter
+          }, ending on December 31, ${fy - 1}.`;
+        } else if (this.quarter == 1) {
+          return `Totals include expenditures from FY 2017 through FY ${fy} Q${
+            this.quarter
+          }, ending on September 30, ${fy - 1}.`;
         }
       }
       // Full fiscal year
-      else if (fy !== FISCAL_YEAR || (fy == FISCAL_YEAR && QUARTER == 4)) {
+      else if (
+        fy !== this.fiscal_year ||
+        (fy == this.fiscal_year && this.quarter == 4)
+      ) {
         return `Totals include expenditures for FY ${fy}, ranging from July 1, ${
           fy - 1
         } to June 30, ${fy}.`;
       }
       // Current fiscal year, but figure out end date
       else {
-        let note = `Totals include expenditures through FY ${fy} Q${QUARTER}`;
-        if (QUARTER == 3) {
+        let note = `Totals include expenditures through FY ${fy} Q${this.quarter}`;
+        if (this.quarter == 3) {
           return `${note}, ranging from July 1, ${fy - 1} to March 31, ${fy}.`;
-        } else if (QUARTER == 2) {
+        } else if (this.quarter == 2) {
           return `${note}, ranging from July 1, ${fy - 1} to December 31, ${
             fy - 1
           }.`;
@@ -179,15 +183,6 @@ export default {
           this.loadingState += 1;
         }, 100);
     },
-  },
-  created() {
-    // Loadt the summary data
-    this.data = this.$store.state.summary;
-    if (this.data == null) {
-      this.$store.dispatch("fetchSummary").then((data) => {
-        this.data = data;
-      });
-    }
   },
 };
 </script>
