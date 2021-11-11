@@ -82,6 +82,9 @@ export default {
 </script>
 
 <style>
+#footnotes {
+  margin-top: 50px !important;
+}
 #app {
   overflow-y: hidden !important;
 }
