@@ -26,6 +26,32 @@
 
         <!-- 3. Detailed Look -->
         <DetailedLook :fiscal_year="fiscal_year" :quarter="quarter" />
+
+        <!-- 4. Footnotes -->
+        <div id="footnotes">
+          <h2>Footnotes</h2>
+          <hr class="titlebar" />
+          <p>
+            <span>
+              <a
+                class="text-link"
+                href="#fn1"
+                id="ref1"
+                title="Jump back to footnote 1 in the
+        text."
+                >[1]</a
+              >
+            </span>
+            <span class="ml-2"
+              >In the past, the Kenney Administration has noted that there are
+              additional areas of spending for Beverage Tax revenue that are not
+              captured by the main areas presented here. These additional
+              spending areas do not have an identifying index code in the City’s
+              general ledger system and cannot be tracked or verified by the
+              Controller’s Office.</span
+            >
+          </p>
+        </div>
       </v-main>
     </v-app>
   </div>

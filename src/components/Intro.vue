@@ -19,7 +19,7 @@
       <p>
         This release includes data on individual expenditure items associated
         with the main Beverage Tax spending areas: Pre-K, Community Schools, and
-        Rebuild.<sup><a id="ref1" class="footnote" href="#fn1">[1]</a></sup> All
+        Rebuild.<sup><a id="fn1" class="footnote" href="#ref1">[1]</a></sup> All
         data is taken directly from the City of Philadelphia’s general ledger
         system, FAMIS, which is used to track departmental spending. For each
         spending area, users can view summaries of the expenditures by vendor
