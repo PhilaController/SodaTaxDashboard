@@ -94,7 +94,7 @@
               of the total revenue, on program administration;
             </li>
             <li>
-              {{ getSpendingTotal("Debt Service for Rebuild") }}, or
+              {{ getSpendingTotal("Debt Service for Rebuild") }} million, or
               {{ getSpendingPercent("Debt Service for Rebuild") }} of the total
               revenue, on debt service for Rebuild; and
             </li>
