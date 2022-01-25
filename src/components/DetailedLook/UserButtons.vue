@@ -1,18 +1,12 @@
 <template>
   <v-col cols="12" md="6" class="mt-3">
-    <!-- Sub-header -->
-    <div>
-      <div class="sub-header">
-        Select a spending use and fiscal year(s) to view:
-      </div>
-    </div>
-
     <div class="btn-group d-flex flex-column">
       <!-- Use type button -->
       <v-select
         v-model="selectedSpendingUse"
         :items="spendingUses"
         class="use-type-dropdown"
+        label="Spending Use"
         outlined
         hide-details
         :ripple="false"
@@ -24,7 +18,7 @@
         v-model="selectedFiscalYears"
         :items="fiscalYears"
         class="fiscal-year-dropdown w-100 mt-2"
-        placeholder="Select fiscal years(s)"
+        label="Fiscal Year(s)"
         multiple
         outlined
         hide-details

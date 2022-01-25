@@ -21,7 +21,7 @@
             :items="dropdownOptions"
             item-text="label"
             item-value="value"
-            label="Select Time Period To View"
+            label="Select time period to view"
             outlined
             hide-details
             :ripple="false"
