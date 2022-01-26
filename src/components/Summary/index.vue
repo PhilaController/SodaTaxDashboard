@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col sm="12" md="12" class="mt-3">
-      <!-- Overlay a lodader -->
+      <!-- Overlay a loader -->
       <v-overlay :value="isLoading" absolute opacity="1" color="#fff">
         <v-progress-circular indeterminate size="64" color="#2176d2" />
       </v-overlay>
@@ -18,6 +18,7 @@
           <v-select
             v-model="selectedFiscalYear"
             class="summary-dropdown"
+            :menu-props="{ contentClass: 'left-aligned-menu-content' }"
             :items="dropdownOptions"
             item-text="label"
             item-value="value"
@@ -235,7 +236,7 @@ export default {
 }
 @media only screen and (max-width: 767px) {
   .summary-dropdown {
-    width: 100%;
+    width: 100% !important;
     max-width: 100% !important;
   }
   .download-summary-button {

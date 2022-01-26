@@ -1,31 +1,31 @@
 <template>
   <v-col cols="12" md="6" class="mt-3">
-    <div class="btn-group d-flex flex-column">
-      <!-- Use type button -->
-      <v-select
-        v-model="selectedSpendingUse"
-        :items="spendingUses"
-        class="use-type-dropdown"
-        label="Spending Use"
-        outlined
-        hide-details
-        :ripple="false"
-        @input="changeSelectedSpendingUse"
-      />
+    <!-- Use type button -->
+    <v-select
+      v-model="selectedSpendingUse"
+      :items="spendingUses"
+      :menu-props="{ contentClass: 'left-aligned-menu-content' }"
+      class="use-type-dropdown"
+      label="Spending Use"
+      outlined
+      hide-details
+      :ripple="false"
+      @input="changeSelectedSpendingUse"
+    />
 
-      <!-- Fiscal Year button -->
-      <v-select
-        v-model="selectedFiscalYears"
-        :items="fiscalYears"
-        class="fiscal-year-dropdown w-100 mt-2"
-        label="Fiscal Year(s)"
-        multiple
-        outlined
-        hide-details
-        :ripple="false"
-        @input="changeSelectedFiscalYears"
-      />
-    </div>
+    <!-- Fiscal Year button -->
+    <v-select
+      v-model="selectedFiscalYears"
+      :items="fiscalYears"
+      :menu-props="{ contentClass: 'left-aligned-menu-content' }"
+      class="fiscal-year-dropdown w-100 mt-4"
+      label="Fiscal Year(s)"
+      multiple
+      outlined
+      hide-details
+      :ripple="false"
+      @input="changeSelectedFiscalYears"
+    />
   </v-col>
 </template>
 
