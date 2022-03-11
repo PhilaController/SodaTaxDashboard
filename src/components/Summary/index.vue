@@ -110,11 +110,12 @@ export default {
       }
 
       //   Group by spending use and sum the totals
-      return rollup(
+      let out = rollup(
         data,
         (v) => sum(v, (d) => d["Total"]),
         (d) => d["Spending Use"]
       );
+      return new Map([...out.entries()].sort((a, b) => b[1] - a[1]));
     },
     dropdownOptions() {
       /* Options for the fiscal year dropdown */
