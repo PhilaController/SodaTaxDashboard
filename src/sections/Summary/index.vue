@@ -1,11 +1,6 @@
 <template>
-  <v-row>
-    <v-col sm="12" md="12" class="mt-3">
-      <!-- Overlay a loader -->
-      <v-overlay :value="isLoading" absolute opacity="1" color="#fff">
-        <v-progress-circular indeterminate size="64" color="#2176d2" />
-      </v-overlay>
-
+  <div>
+    <div class="mt-4">
       <div>
         <div class="d-flex flex-column">
           <h2>Total Beverage Tax Revenue and Spending</h2>
@@ -13,30 +8,25 @@
         </div>
 
         <!-- Button group -->
-        <div class="summary-btn-group d-flex align-items-center">
-          <!-- Fiscal Year Dropdown -->
-          <v-select
+        <div class="summary-btn-group d-flex align-items-end">
+          <Dropdown
             v-model="selectedFiscalYear"
+            :options="dropdownOptions"
+            label="Select time period to view:"
+            :width="200"
             class="summary-dropdown"
-            :menu-props="{ contentClass: 'left-aligned-menu-content' }"
-            :items="dropdownOptions"
-            item-text="label"
-            item-value="value"
-            label="Select time period to view"
-            outlined
-            hide-details
-            :ripple="false"
           />
 
           <!-- Download button -->
-          <v-btn
-            class="download-summary-button ml-0 ml-md-2 mt-2 mt-md-0"
-            large
-            outlined
-            :ripple="false"
-            :href="downloadURL"
-            >Download Data</v-btn
-          >
+          <div class="download-summary-button ml-0 ml-md-2 mt-2 mt-md-0">
+            <a
+              aria-label="Download Data:"
+              class="btn btn-md btn-outline-primary p-2 w-100"
+              :href="downloadURL"
+            >
+              Download Data
+            </a>
+          </div>
         </div>
       </div>
 
@@ -50,9 +40,9 @@
         />
 
         <!-- Footer -->
-        <div class="summary-footer" id="summary-chart-footnotes">
+        <div id="summary-chart-footnotes" class="summary-footer">
           <div class="footnote-header">Notes</div>
-          <v-divider class="my-divider" />
+          <hr class="my-divider" />
           <ul aria-labelledby="summary-chart-footnotes">
             <li class="font-italic">{{ summaryFootnote }}</li>
             <li class="font-italic">
@@ -63,23 +53,29 @@
           </ul>
         </div>
       </div>
-    </v-col>
-  </v-row>
+    </div>
+  </div>
 </template>
 
 <script>
-import SummaryChart from "./SummaryChart";
-import { rollup, sum, ascending } from "d3-array";
+import SummaryChart from "./SummaryChart/index.vue";
+import Dropdown from "@/components/Dropdown";
 import { getDownloadURL } from "@/utils";
+
+import { rollup, sum, ascending } from "d3-array";
 
 export default {
   name: "Summary",
-  components: { SummaryChart },
-  props: ["data", "fiscal_year", "quarter"],
+  components: { Dropdown, SummaryChart },
+  props: {
+    data: { type: Array, required: true },
+    fiscalYear: { type: Number, required: true },
+    quarter: { type: Number, required: true },
+  },
   data() {
     return {
       downloadURL: getDownloadURL("summary"),
-      selectedFiscalYear: null,
+      selectedFiscalYear: -1,
       loadingState: 0,
     };
   },
@@ -105,7 +101,7 @@ export default {
       if (this.data == null) return [];
 
       //   Do we need to filter by a specific fiscal year?
-      if (this.selectedFiscalYear !== null) {
+      if (this.selectedFiscalYear !== -1) {
         data = data.filter((d) => d["Fiscal Year"] === this.selectedFiscalYear);
       }
 
@@ -120,7 +116,7 @@ export default {
     dropdownOptions() {
       /* Options for the fiscal year dropdown */
 
-      let out = [{ label: "All Fiscal Years", value: null }];
+      let out = [{ label: "All Fiscal Years", value: -1 }];
       for (let i = 0; i < this.fiscalYears.length; i++)
         out.push({
           label: `FY ${this.fiscalYears[i]}`,
@@ -134,9 +130,9 @@ export default {
       let fy = this.selectedFiscalYear;
 
       // All dates
-      if (fy == null) {
+      if (fy == -1) {
         // Figure out the ending quarter
-        fy = this.fiscal_year;
+        fy = this.fiscalYear;
         if (this.quarter == 4) {
           return `Totals include expenditures from FY 2017 through FY ${fy}, ending on June 30, ${fy}.`;
         } else if (this.quarter == 3) {
@@ -153,8 +149,8 @@ export default {
       }
       // Full fiscal year
       else if (
-        fy !== this.fiscal_year ||
-        (fy == this.fiscal_year && this.quarter == 4)
+        fy !== this.fiscalYear ||
+        (fy == this.fiscalYear && this.quarter == 4)
       ) {
         return `Totals include expenditures for FY ${fy}, ranging from July 1, ${
           fy - 1
@@ -190,6 +186,9 @@ export default {
 </script>
 
 <style>
+.download-btn-wrapper {
+  width: 300px;
+}
 .summary-header {
   display: flex;
   justify-content: space-between;
@@ -218,9 +217,9 @@ export default {
 
 /* Download button */
 .download-summary-button {
-  width: 350px;
-  min-height: 56px;
-  border-color: rgba(0, 0, 0, 0.5) !important;
+  width: 300px;
+  display: flex;
+  align-items: flex-end;
 }
 
 .download-summary-button:active,
@@ -228,14 +227,18 @@ export default {
   text-decoration: none !important;
 }
 
-@media only screen and (max-width: 1023px) {
+.summary-btn-group {
+  padding: 0.5rem;
+}
+
+@media only screen and (max-width: 1023.98px) {
   .summary-btn-group {
     flex-direction: column;
     margin-bottom: 20px;
     align-items: flex-start !important;
   }
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 767.98px) {
   .summary-dropdown {
     width: 100% !important;
     max-width: 100% !important;

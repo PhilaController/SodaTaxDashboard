@@ -11,7 +11,7 @@
         v-show="false"
         aria-hidden="true"
         :data="data"
-        caption="Tabular representation of the bar and pie charts showing data for the total beverage revenue and spending"
+        :caption="tableCaption"
       />
     </div>
   </div>
@@ -36,6 +36,8 @@ export default {
         "Program Administration": "#2176d2",
         "General Fund": "#f3c613",
       },
+      tableCaption:
+        "Tabular representation of the bar and pie charts showing total dollar amount for each spending category associated with beverage tax revenue.",
     };
   },
 };

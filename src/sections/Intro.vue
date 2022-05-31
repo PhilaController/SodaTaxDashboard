@@ -14,7 +14,8 @@
         City spends your tax dollars, the City Controller’s Office is releasing
         information about the revenue and spending for the Philadelphia Beverage
         Tax. This release offers an update on the Beverage Tax through the
-        {{ quarterTag }} quarter of fiscal year 2021 ({{ endDate }}).
+        {{ quarterTag }} quarter of fiscal year (FY) {{ fiscalYear }} which
+        ended on {{ endDate }}.
       </p>
       <p>
         This release includes data on individual expenditure items associated
@@ -52,17 +53,16 @@
       </p>
     </div>
 
-    <!-- the notes section -->
-    <div id="intro-2" v-if="data != null">
-      <h2 id="key-takeaways" class="mt-5">Key Takeaways</h2>
+    <div v-if="data != null" id="intro-2">
+      <h2 id="key-takeaways" class="mt-4">Key Takeaways</h2>
       <hr class="titlebar" />
       <ul aria-labelledby="key-takeaways">
-        <li>
+        <li class="spaced-out">
           The total revenue generated from the Philadelphia Beverage Tax since
           its inception is {{ formatNumber(totalRevenue) }} million. This
           includes revenue from fiscal years {{ fiscalYearsDescription }}.
         </li>
-        <li>
+        <li class="spaced-out">
           Expenditures related to Beverage Tax funds include spending on Pre-K,
           Community Schools, and the City offices responsible for administering
           these two programs. There is also spending related to Rebuild,
@@ -70,13 +70,13 @@
           Special Projects. Beverage Tax revenue not spent in these five areas
           has gone to the General Fund, the City’s main operating fund.
         </li>
-        <li>
+        <li class="spaced-out">
           The majority of Beverage Tax revenue,
           {{ getSpendingTotal("General Fund") }} million or
           {{ getSpendingPercent("General Fund") }} of the total, has gone to the
           General Fund.
         </li>
-        <li>
+        <li class="spaced-out">
           The total spending for each of the five areas is:
           <ul>
             <li>
@@ -107,10 +107,10 @@
         </li>
       </ul>
 
-      <h2 id="notes" class="mt-5">Notes</h2>
+      <h2 id="notes" class="mt-4">Notes</h2>
       <hr class="titlebar" />
       <ul aria-labelledby="notes">
-        <li>
+        <li class="spaced-out">
           The data for individual expenditures is taken directly from the City
           of Philadelphia’s general ledger system (FAMIS), which the City uses
           to track spending and revenues.
@@ -131,7 +131,7 @@
             </li>
           </ul>
         </li>
-        <li>
+        <li class="spaced-out">
           Revenue data reflects the latest information listed in FAMIS.
           <ul>
             <li>
@@ -144,7 +144,7 @@
             </li>
           </ul>
         </li>
-        <li>
+        <li class="spaced-out">
           In January 2020, the Office of Children and Families was created and
           began administering the Pre-K and Community School programs. Prior to
           this, the Mayor’s Office of Education was responsible for
@@ -161,30 +161,20 @@ import { sum, rollup } from "d3-array";
 
 export default {
   name: "Intro",
-  props: ["data", "fiscal_year", "quarter"],
-  methods: {
-    formatNumber(d) {
-      return `$${(d / 1e6).toFixed(1)}`;
-    },
-    getSpendingTotal(use) {
-      let value = this.dataBySpendingUse.get(use);
-      return this.formatNumber(value);
-    },
-    getSpendingPercent(use) {
-      let value = this.dataBySpendingUse.get(use);
-      value = value / this.totalRevenue;
-      return `${(100 * value).toFixed(1)}%`;
-    },
+  props: {
+    data: { type: Array, required: true },
+    fiscalYear: { type: Number, required: true },
+    quarter: { type: Number, required: true },
   },
   computed: {
     fiscalYearsDescription() {
       let out = "2017";
-      for (let fy = 2018; fy <= this.fiscal_year - 1; fy++) {
+      for (let fy = 2018; fy <= this.fiscalYear - 1; fy++) {
         out += `, ${fy}`;
       }
-      if (this.quarter == 4) out += `, and ${this.fiscal_year}`;
+      if (this.quarter == 4) out += `, and ${this.fiscalYear}`;
       else
-        out += `, and through the ${this.quarterTag} quarter of ${this.fiscal_year}`;
+        out += `, and through the ${this.quarterTag} quarter of ${this.fiscalYear}`;
 
       return out;
     },
@@ -208,8 +198,8 @@ export default {
     endDate() {
       // Determine the year
       let year;
-      if (this.quarter == 1 || this.quarter == 2) year = this.fiscal_year - 1;
-      else year = this.fiscal_year;
+      if (this.quarter == 1 || this.quarter == 2) year = this.fiscalYear - 1;
+      else year = this.fiscalYear;
 
       let months = {
         1: "September 30",
@@ -222,5 +212,25 @@ export default {
       return `${month}, ${year}`;
     },
   },
+  methods: {
+    formatNumber(d) {
+      return `$${(d / 1e6).toFixed(1)}`;
+    },
+    getSpendingTotal(use) {
+      let value = this.dataBySpendingUse.get(use);
+      return this.formatNumber(value);
+    },
+    getSpendingPercent(use) {
+      let value = this.dataBySpendingUse.get(use);
+      value = value / this.totalRevenue;
+      return `${(100 * value).toFixed(1)}%`;
+    },
+  },
 };
 </script>
+
+<style scoped>
+li.spaced-out {
+  margin-bottom: 0.75rem;
+}
+</style>

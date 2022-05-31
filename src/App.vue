@@ -1,78 +1,60 @@
 <template>
-  <div data-vuetify>
-    <!-- Overlay a lodader -->
-    <v-overlay
-      :value="fiscal_year == null"
-      id="startOverlay"
-      absolute
-      opacity="1"
-      color="#fff"
-    >
-      <v-progress-circular
-        class="mt-5"
-        indeterminate
-        size="64"
-        color="#2176d2"
-      />
-    </v-overlay>
+  <div id="app">
+    <div v-if="fiscalYear !== null && data !== null">
+      <!-- 1. Introduction -->
+      <Intro :data="data" :fiscal-year="fiscalYear" :quarter="quarter" />
 
-    <v-app id="app">
-      <v-main v-if="fiscal_year !== null">
-        <!-- 1. Introduction -->
-        <Intro :data="data" :fiscal_year="fiscal_year" :quarter="quarter" />
+      <!-- 2. Summary -->
+      <Summary :data="data" :fiscal-year="fiscalYear" :quarter="quarter" />
 
-        <!-- 2. Summary -->
-        <Summary :data="data" :fiscal_year="fiscal_year" :quarter="quarter" />
+      <!-- 3. Detailed Look -->
+      <DetailedLook :fiscal-year="fiscalYear" :quarter="quarter" />
 
-        <!-- 3. Detailed Look -->
-        <DetailedLook :fiscal_year="fiscal_year" :quarter="quarter" />
-
-        <!-- 4. Footnotes -->
-        <div id="footnotes">
-          <h2>Footnotes</h2>
-          <hr class="titlebar" />
-          <p>
-            <span>
-              <a
-                class="text-link"
-                href="#fn1"
-                id="ref1"
-                title="Jump back to footnote 1 in the
-        text."
-                >[1]</a
-              >
-            </span>
-            <span class="ml-2"
-              >In the past, the Kenney Administration has noted that there are
-              additional areas of spending for Beverage Tax revenue that are not
-              captured by the main areas presented here. These additional
-              spending areas do not have an identifying index code in the City’s
-              general ledger system and cannot be tracked or verified by the
-              Controller’s Office.</span
+      <!-- 4. Footnotes -->
+      <div id="footnotes">
+        <h2>Footnotes</h2>
+        <hr class="titlebar" />
+        <p>
+          <span>
+            <a
+              id="ref1"
+              class="text-link"
+              href="#fn1"
+              aria-label="Jump back to footnote 1 in the text."
+              >[1]</a
             >
-          </p>
-        </div>
-      </v-main>
-    </v-app>
+          </span>
+          <span class="ml-2"
+            >In the past, the Kenney Administration has noted that there are
+            additional areas of spending for Beverage Tax revenue that are not
+            captured by the main areas presented here. These additional spending
+            areas do not have an identifying index code in the City’s general
+            ledger system and cannot be tracked or verified by the Controller’s
+            Office.</span
+          >
+        </p>
+      </div>
+    </div>
+    <div v-else class="loader-wrapper"><span class="loader"></span></div>
   </div>
 </template>
 
 <script>
-import Intro from "@/components/Intro";
-import Summary from "@/components/Summary";
-import DetailedLook from "@/components/DetailedLook";
+import Intro from "@/sections/Intro";
+import Summary from "@/sections/Summary";
+import DetailedLook from "@/sections/DetailedLook";
 import { fetchAWS, fetchLatestRelease } from "@/utils";
 
 export default {
   name: "App",
   components: { Intro, Summary, DetailedLook },
   data() {
-    return { data: null, fiscal_year: null, quarter: null };
+    return { data: null, fiscalYear: null, quarter: null };
   },
   async created() {
     // Get latest fiscal year and quarter
     let config = await fetchLatestRelease();
-    this.fiscal_year = config.fiscal_year;
+    this.fiscalYear = config.fiscal_year;
     this.quarter = config.quarter;
 
     // Get the summary data
@@ -82,6 +64,29 @@ export default {
 </script>
 
 <style>
+.loader-wrapper {
+  display: flex;
+  justify-content: center;
+}
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #fff;
+  border-bottom-color: #2176d2;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 #footnotes {
   margin-top: 50px !important;
 }
@@ -116,9 +121,9 @@ export default {
 
 .titlebar {
   max-width: 200px;
+  padding-bottom: 30px !important;
 }
 .left-aligned-menu-content {
   left: 0 !important;
 }
-
 </style>

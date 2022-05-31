@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import App from '@/App.vue'
-import vuetify from '@/plugins/vuetify'
 import { getDownloadURL } from "@/utils"
+import VueAccessibleMultiselect from "vue-accessible-multiselect";
 
+Vue.use(VueAccessibleMultiselect)
 Vue.config.productionTip = false
 
 // load and set the HTML template we are using
@@ -44,6 +45,5 @@ add_help_message();
 
 
 new Vue({
-  vuetify,
   render: h => h(App)
 }).$mount('#app')
