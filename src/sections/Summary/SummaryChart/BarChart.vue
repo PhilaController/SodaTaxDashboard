@@ -5,12 +5,16 @@
     type="bar"
     :series="series"
     :options="chartOptions"
+    @mounted="updateLabels"
+    @animationEnd="updateLabels"
+    @updated="updateLabels"
   ></apexchart>
 </template>
 
 <script>
 import VueApexCharts from "vue-apexcharts";
 import { formatNumber } from "@/utils";
+import $ from "jquery";
 
 export default {
   components: { apexchart: VueApexCharts },
@@ -35,6 +39,7 @@ export default {
       },
     };
   },
+
   computed: {
     categories() {
       if (this.data) {
@@ -122,7 +127,7 @@ export default {
             `${formatNumber(d)} (${((100 * d) / this.total).toFixed(0)}%)`,
           textAnchor: "start",
           offsetY: 7,
-          offsetX: 10,
+          offsetX: 2,
           style: {
             fontSize: "1rem",
             fontWeight: "bold",
@@ -138,7 +143,7 @@ export default {
           y: { formatter: (d) => formatNumber(d) },
         },
         grid: { show: false, padding: { top: -10, right: 50 } },
-        stroke: { colors: ["#666"], width: 0.5 },
+        stroke: { colors: ["#666"], width: 1 },
         responsive: [
           {
             breakpoint: 767,
@@ -178,7 +183,25 @@ export default {
       };
     },
   },
+  mounted() {
+    window.addEventListener("resize", this.updateLabels);
+  },
+
   methods: {
+    updateLabels() {
+      let widths = [];
+      $(".apexcharts-series[seriesName=SpendingxTotal] path").each((i, d) => {
+        widths.push(+$(d).attr("barWidth"));
+      });
+
+      $(".summary-bar-chart .apexcharts-data-labels text").each((i, d) => {
+        if (i > 1) {
+          let el = $(d);
+          let x = +el.attr("x");
+          $(d).attr("x", widths[i] + 3);
+        }
+      });
+    },
     getAlias(value) {
       let out = this.aliases[value];
       if (out) return out;

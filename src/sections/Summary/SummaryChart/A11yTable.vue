@@ -1,10 +1,6 @@
 <template>
   <table>
-    <caption>
-      {{
-        caption
-      }}
-    </caption>
+    <caption v-html="caption"></caption>
     <!-- Header -->
     <thead>
       <tr>

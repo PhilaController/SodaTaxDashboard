@@ -37,6 +37,7 @@
           v-if="data != null"
           :key="loadingState"
           :data="filteredData"
+          :fiscal-year-label="fiscalYearLabel"
         />
 
         <!-- Footer -->
@@ -62,7 +63,7 @@ import SummaryChart from "./SummaryChart/index.vue";
 import Dropdown from "@/components/Dropdown";
 import { getDownloadURL } from "@/utils";
 
-import { rollup, sum, ascending } from "d3-array";
+import { rollup, sum, ascending, max, min } from "d3-array";
 
 export default {
   name: "Summary",
@@ -80,6 +81,15 @@ export default {
     };
   },
   computed: {
+    fiscalYearLabel() {
+      if (this.selectedFiscalYear !== -1)
+        return `fiscal year ${this.selectedFiscalYear}`;
+      else {
+        let minFY = min(this.fiscalYears);
+        let maxFY = max(this.fiscalYears);
+        return `fiscal years ${minFY} to ${maxFY}`;
+      }
+    },
     isLoading() {
       /* Has the data been loaded yet? */
       return this.data == null;
@@ -255,4 +265,3 @@ export default {
   width: 7% !important;
 }
 </style>
-

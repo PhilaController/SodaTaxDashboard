@@ -12,27 +12,19 @@
 
       <!-- 4. Footnotes -->
       <div id="footnotes">
-        <h2>Footnotes</h2>
+        <h2 id="footnote-label">Footnotes</h2>
         <hr class="titlebar" />
-        <p>
-          <span>
-            <a
-              id="ref1"
-              class="text-link"
-              href="#fn1"
-              aria-label="Jump back to footnote 1 in the text."
-              >[1]</a
-            >
-          </span>
-          <span class="ml-2"
-            >In the past, the Kenney Administration has noted that there are
+
+        <div class="mt-2">
+          <Footnote
+            text="In the past, the Kenney Administration has noted that there are
             additional areas of spending for Beverage Tax revenue that are not
             captured by the main areas presented here. These additional spending
             areas do not have an identifying index code in the City’s general
             ledger system and cannot be tracked or verified by the Controller’s
-            Office.</span
-          >
-        </p>
+            Office."
+          />
+        </div>
       </div>
     </div>
     <div v-else class="loader-wrapper"><span class="loader"></span></div>
@@ -43,11 +35,12 @@
 import Intro from "@/sections/Intro";
 import Summary from "@/sections/Summary";
 import DetailedLook from "@/sections/DetailedLook";
+import Footnote from "@/components/Footnote";
 import { fetchAWS, fetchLatestRelease } from "@/utils";
 
 export default {
   name: "App",
-  components: { Intro, Summary, DetailedLook },
+  components: { Intro, Summary, DetailedLook, Footnote },
   data() {
     return { data: null, fiscalYear: null, quarter: null };
   },
@@ -64,6 +57,10 @@ export default {
 </script>
 
 <style>
+#app {
+  counter-reset: footnotes;
+}
+
 .loader-wrapper {
   display: flex;
   justify-content: center;

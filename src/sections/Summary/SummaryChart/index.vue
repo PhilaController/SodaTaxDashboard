@@ -8,8 +8,7 @@
       <BarChart :data="data" :colors="colors" class="bar-chart-wrapper" />
 
       <A11yTable
-        v-show="false"
-        aria-hidden="true"
+        class="screen-reader-text"
         :data="data"
         :caption="tableCaption"
       />
@@ -21,11 +20,15 @@
 import BarChart from "./BarChart";
 import DonutChart from "./DonutChart";
 import A11yTable from "./A11yTable";
+import { formatNumber } from "@/utils";
 
 export default {
   name: "SummaryChart",
   components: { BarChart, DonutChart, A11yTable },
-  props: { data: { type: Map, default: null } },
+  props: {
+    data: { type: Map, default: null },
+    fiscalYearLabel: { type: String, required: true },
+  },
   data() {
     return {
       colors: {
@@ -36,13 +39,32 @@ export default {
         "Program Administration": "#2176d2",
         "General Fund": "#f3c613",
       },
-      tableCaption:
-        "Tabular representation of the bar and pie charts showing total dollar amount for each spending category associated with beverage tax revenue.",
     };
+  },
+  computed: {
+    tableCaption() {
+      let v = formatNumber(this.total);
+      return `Total dollar amount per spending category associated with beverage tax revenue, which totaled ${v} in ${this.fiscalYearLabel}`;
+    },
+    series() {
+      if (this.data) {
+        return Array.from(this.data.values());
+      }
+      return [];
+    },
+    total() {
+      if (this.series) {
+        let total = 0;
+        for (let i = 0; i < this.series.length; i++) {
+          total += this.series[i];
+        }
+        return total;
+      }
+      return null;
+    },
   },
 };
 </script>
-
 
 <style>
 /* Wrappers for charts */

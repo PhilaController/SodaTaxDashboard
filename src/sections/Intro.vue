@@ -20,14 +20,14 @@
       <p>
         This release includes data on individual expenditure items associated
         with the main Beverage Tax spending areas: Pre-K, Community Schools, and
-        Rebuild.<sup><a id="fn1" class="footnote" href="#ref1">[1]</a></sup> All
-        data is taken directly from the City of Philadelphia’s general ledger
-        system, FAMIS, which is used to track departmental spending. For each
-        spending area, users can view summaries of the expenditures by vendor
-        name and spending category, as well as search for individual
-        expenditures using an interactive table. The complete data set, which
-        includes expenditures from July 1, 2017 to {{ endDate }}, can be
-        downloaded using the button at the top of this page.
+        Rebuild.<footnote-reference /> All data is taken directly from the City
+        of Philadelphia’s general ledger system, FAMIS, which is used to track
+        departmental spending. For each spending area, users can view summaries
+        of the expenditures by vendor name and spending category, as well as
+        search for individual expenditures using an interactive table. The
+        complete data set, which includes expenditures from July 1, 2017 to
+        {{ endDate }}, can be downloaded using the button at the top of this
+        page.
       </p>
       <p>
         Mayor James Kenney proposed the Philadelphia Beverage Tax in 2016 to
@@ -158,6 +158,7 @@
 
 <script>
 import { sum, rollup } from "d3-array";
+import FootnoteReference from "@/components/FootnoteReference";
 
 export default {
   name: "Intro",
@@ -166,6 +167,7 @@ export default {
     fiscalYear: { type: Number, required: true },
     quarter: { type: Number, required: true },
   },
+  components: { FootnoteReference },
   computed: {
     fiscalYearsDescription() {
       let out = "2017";

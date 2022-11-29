@@ -78,27 +78,48 @@
             <!-- Inputs -->
             <div class="table-filters">
               <div class="table-filters-label">Filter Expenditures</div>
-              <input
-                id="min-amount-input"
-                v-model="minAmount"
-                type="text"
-                class="form-control"
-                placeholder="Minimum Amount"
-              />
-              <input
-                id="max-amount-input"
-                v-model="maxAmount"
-                type="text"
-                class="form-control"
-                placeholder="Maximum Amount"
-              />
-              <input
-                id="search-input"
-                v-model="searchInput"
-                type="text"
-                class="form-control"
-                placeholder="Search Keywords"
-              />
+
+              <!-- Min amount wrapper -->
+              <div id="min-amount-filter">
+                <label class="screen-reader-text" for="min-amount-input"
+                  >Minimum Amount</label
+                >
+                <input
+                  id="min-amount-input"
+                  v-model="minAmount"
+                  type="text"
+                  class="form-control"
+                  placeholder="Minimum Amount"
+                />
+              </div>
+
+              <!-- Maximum amount wrapper -->
+              <div id="max-amount-filter">
+                <label class="screen-reader-text" for="max-amount-input"
+                  >Maximum Amount</label
+                >
+                <input
+                  id="max-amount-input"
+                  v-model="maxAmount"
+                  type="text"
+                  class="form-control"
+                  placeholder="Maximum Amount"
+                />
+              </div>
+
+              <!-- Search input -->
+              <div id="search-input">
+                <label class="screen-reader-text" for="search-input"
+                  >Search Keywords</label
+                >
+                <input
+                  id="search-input"
+                  v-model="searchInput"
+                  type="text"
+                  class="form-control"
+                  placeholder="Search Keywords"
+                />
+              </div>
 
               <div class="table-filters-btn-group">
                 <input
@@ -306,8 +327,6 @@ export default {
   },
 };
 </script>
-
-
 
 <style>
 .table-filters-btn-group {

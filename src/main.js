@@ -6,6 +6,12 @@ import VueAccessibleMultiselect from "vue-accessible-multiselect";
 Vue.use(VueAccessibleMultiselect)
 Vue.config.productionTip = false
 
+// Vue scroll to
+let VueScrollTo = require("vue-scrollto");
+let pad = 10;
+let offset = -($("#site-navigation").outerHeight() + pad);
+Vue.use(VueScrollTo, { offset: offset });
+
 // load and set the HTML template we are using
 let audit_content = $(".audit-content");
 audit_content.html(`<div id="app"></div>`);

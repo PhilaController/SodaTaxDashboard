@@ -120,7 +120,7 @@ export default {
         tooltip: {
           fillSeriesColor: false,
           theme: "light",
-          enabled: true,
+          enabled: false,
           x: { show: false },
           y: {
             formatter: (d) =>
