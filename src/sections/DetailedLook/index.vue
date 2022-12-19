@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import VueAccessibleMultiselect from "vue-accessible-multiselect";
+import { VueAccessibleMultiselect } from "vue-accessible-multiselect";
 import Dropdown from "@/components/Dropdown";
 import Dashboard from "./Dashboard.vue";
 import { ascending } from "d3-array";
