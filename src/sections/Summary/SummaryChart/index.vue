@@ -7,11 +7,7 @@
       <!-- Bar Chart -->
       <BarChart :data="data" :colors="colors" class="bar-chart-wrapper" />
 
-      <A11yTable
-        class="screen-reader-text"
-        :data="data"
-        :caption="tableCaption"
-      />
+      <A11yTable :data="data" :caption="tableCaption" />
     </div>
   </div>
 </template>

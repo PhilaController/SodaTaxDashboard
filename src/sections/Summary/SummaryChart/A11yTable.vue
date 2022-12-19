@@ -1,5 +1,5 @@
 <template>
-  <table>
+  <table class="screen-reader-text">
     <caption v-html="caption"></caption>
     <!-- Header -->
     <thead>

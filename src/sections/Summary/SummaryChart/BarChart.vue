@@ -124,7 +124,7 @@ export default {
         dataLabels: {
           enabled: true,
           formatter: (d) =>
-            `${formatNumber(d)} (${((100 * d) / this.total).toFixed(0)}%)`,
+            `${formatNumber(d)} (${((100 * d) / this.total).toFixed(1)}%)`,
           textAnchor: "start",
           offsetY: 7,
           offsetX: 2,

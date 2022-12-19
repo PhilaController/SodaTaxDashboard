@@ -60,7 +60,7 @@
         <li class="spaced-out">
           The total revenue generated from the Philadelphia Beverage Tax since
           its inception is {{ formatNumber(totalRevenue) }} million. This
-          includes revenue from fiscal years {{ fiscalYearsDescription }}.
+          includes revenue from {{ fiscalYearsDescription }}.
         </li>
         <li class="spaced-out">
           Expenditures related to Beverage Tax funds include spending on Pre-K,
@@ -162,21 +162,17 @@ import FootnoteReference from "@/components/FootnoteReference";
 
 export default {
   name: "Intro",
+  components: { FootnoteReference },
   props: {
     data: { type: Array, required: true },
     fiscalYear: { type: Number, required: true },
     quarter: { type: Number, required: true },
   },
-  components: { FootnoteReference },
   computed: {
     fiscalYearsDescription() {
-      let out = "2017";
-      for (let fy = 2018; fy <= this.fiscalYear - 1; fy++) {
-        out += `, ${fy}`;
-      }
-      if (this.quarter == 4) out += `, and ${this.fiscalYear}`;
-      else
-        out += `, and through the ${this.quarterTag} quarter of ${this.fiscalYear}`;
+      let out = "fiscal year 2017 through";
+      if (this.quarter == 4) out += ` fiscal year ${this.fiscalYear}`;
+      else out += ` the ${this.quarterTag} quarter of ${this.fiscalYear}`;
 
       return out;
     },
