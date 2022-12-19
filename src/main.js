@@ -1,9 +1,7 @@
 import Vue from "vue";
 import App from "@/App.vue";
 import { getDownloadURL } from "@/utils";
-import VueAccessibleMultiselect from "vue-accessible-multiselect";
 
-Vue.use(VueAccessibleMultiselect);
 Vue.config.productionTip = false;
 
 // Vue scroll to

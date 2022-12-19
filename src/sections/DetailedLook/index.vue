@@ -71,6 +71,7 @@
 </template>
 
 <script>
+import VueAccessibleMultiselect from "vue-accessible-multiselect";
 import Dropdown from "@/components/Dropdown";
 import Dashboard from "./Dashboard.vue";
 import { ascending } from "d3-array";
@@ -79,7 +80,7 @@ import { fetchAWS } from "@/utils";
 
 export default {
   name: "DetailedLook",
-  components: { Dashboard, Dropdown },
+  components: { Dashboard, Dropdown, VueAccessibleMultiselect },
   props: {
     fiscalYear: { type: Number, required: true },
     quarter: { type: Number, required: true },
@@ -149,8 +150,6 @@ export default {
   },
 };
 </script>
-
-
 
 <style lang="scss">
 @import "~vue-accessible-multiselect/src/styles/core.scss";
@@ -260,4 +259,3 @@ export default {
   line-height: 1.5;
 }
 </style>
-
