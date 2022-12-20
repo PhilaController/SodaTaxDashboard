@@ -251,9 +251,6 @@ export default {
     };
   },
   computed: {
-    isLoading() {
-      return this.data == null;
-    },
     filteredData() {
       /* Filter data by selected fiscal year and spending use */
 
