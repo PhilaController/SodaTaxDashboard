@@ -135,12 +135,10 @@
           Revenue data reflects the latest information listed in FAMIS.
           <ul>
             <li>
-              Revenues are reported on a modified accrual basis, meaning that
-              the City considers revenues to be available if they are collected
-              within 60 days of the end of the current fiscal period. This means
-              that some portion of the revenue that is collected during the
-              first quarter of each fiscal year will be considered revenue from
-              the prior fiscal year.
+              Revenues are reported on a modified accrual basis, which means
+              revenues are recognized as soon as they are both measurable and
+              available. The City considers revenues to be available if they are
+              collected within 60 days of the end of the current fiscal period.
             </li>
           </ul>
         </li>
